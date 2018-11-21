@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.my.bookStore.book.dao.BookDao">
+	<select id="findAll" resultType="Book">
+		SELECT
+			*
+		FROM
+			t_book
+		WHERE del = false;
+	</select>
+	<select id="findByCategory" parameterType="String" resultType="Book">
+		SELECT
+			*
+		FROM
+			t_book
+		WHERE
+			cid=#{cid} AND del = false;
+	</select>
+	<!-- 返回图书详情 -->
+	<resultMap type="Book" id="bookDetail">
+		<id column="bid" property="bid" />
+		<result column="bookName" property="bookName" />
+		<result column="price" property="price" />
+		<result column="author" property="author" />
+		<result column="image" property="image" />
+		<association property="category" javaType="Category">
+			<id column="cid" property="cid" />
+			<result column="categoryName" property="categoryName" />
+		</association>
+	</resultMap>
+	<select id="bookDesc" resultMap="bookDetail" >
+		SELECT
+			*
+		FROM
+			t_book,t_category
+		WHERE
+			t_book.cid = t_category.cid AND bid=#{bid}
+	</select>
+	<select id="getCountByCid" parameterType="String" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			t_book
+		WHERE
+			cid = #{cid}
+	</select>
+	<insert id="add" parameterType="Book">
+		INSERT INTO
+			t_book(bookName,price,author,image,cid)
+		VALUES
+			(#{book.bookName},#{book.price},#{book.author},#{book.image},#{book.category.cid})
+	</insert>
+	<!-- 根据bid删除图书 -->
+	<update id="delete" parameterType="String">
+		UPDATE 
+			t_book
+		SET
+			del = true
+		WHERE
+			bid = #{bid};
+	</update>
+	<!-- 编辑图书 -->
+	<update id="edit" parameterType="Book">
+		UPDATE
+			t_book
+		SET
+			bookName = #{book.bookName},price = #{book.price},author = #{book.author},
+			cid = #{book.category.cid},image = #{book.image}
+		WHERE bid = #{book.bid}
+	</update>
+</mapper>

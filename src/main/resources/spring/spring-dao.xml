@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 配置整合mybatis过程 -->
+	<!-- 1.配置数据库相关参数properties的属性 -->
+		<context:property-placeholder location="classpath:db.properties"/>
+	<!-- 2.配置数据库连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	<!-- 3.配置sqlSessionfactory -->
+	<!-- 通过spring和mybatis整合  实现sqlSessionFactory的创建，
+只有mybatis时需要通过 new SqlSessionFactoryBuilder().build(resourceAsStream)读取配置文件获得  -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入连接池对象 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 配置mybatis全局配置文件mybatis-config.xml -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<!-- 批量别名定义,指定包名，mybatis自动扫描包中的po类，自动定义别名，别名是类名 -->
+		<property name="typeAliasesPackage" value="com.my.bookStore.user.entity,
+		com.my.bookStore.category.entity,com.my.bookStore.book.entity,
+		com.my.bookStore.cart.entity,com.my.bookStore.order.entity"></property>
+		<!-- 扫描sql配置文件：mapper需要的xml文件 -->
+		<property name="mapperLocations" value="classpath:mapping/*.xml"></property>
+	</bean>
+
+	<!-- 4.配置Dao接口包 ,动态实现接口-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 注入sqlSessionFactory -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<!-- 配置需要扫描的dao包，若有多个包，用,隔开 -->
+		<property name="basePackage" value="com.my.bookStore.user.dao,
+		com.my.bookStore.category.dao,com.my.bookStore.book.dao,
+		com.my.bookStore.order.dao"></property>
+	</bean>
+
+</beans>

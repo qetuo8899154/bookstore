@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 为这个mapper指定一个唯一的namespace，习惯上设置成包名+sql映射文件名
+例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
+-->
+<mapper namespace="com.my.bookStore.user.dao.UserDao">
+	<select id="findByUsername" parameterType="String" resultType="User">	
+		SELECT 
+			*
+		FROM
+			t_user
+		WHERE
+			username = #{username}
+	</select>
+	<select id="findByEmail" parameterType="String" resultType="User">
+		SELECT
+			*
+		FROM
+			t_user
+		WHERE
+			email = #{email}
+	</select>
+	<!-- 具体的sql语句 --><insert id="add" parameterType="User">
+		INSERT INTO	
+			t_user(username,password,email)
+		VALUES
+			(#{username},#{password},#{email})
+			
+	</insert>
+	<!-- 管理员登录 -->
+	<select id="adminLogin" parameterType="String" resultType="Admin">	
+		SELECT 
+			*
+		FROM
+			t_admin
+		WHERE
+			username = #{adminname}
+	</select>
+</mapper>
