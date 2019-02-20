@@ -53,11 +53,13 @@
  			合计：${sessionScope.cart.totalPrice}元
  		</td>
  	</tr>
- 	<tr>
+ 	<c:if test="${sessionScope.cart.totalPrice > 0}">
+ 	<tr> 
  		<td colspan="7" align="right" style="font-size: 20pt;">
  		<a href="<c:url value='/OrderController/addOrder'/>">付款</a>
  		</td>
  	</tr>
+ 	</c:if>
  </table>
 </body>
 </html>

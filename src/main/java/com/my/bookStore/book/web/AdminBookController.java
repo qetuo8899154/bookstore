@@ -72,7 +72,7 @@ public class AdminBookController {
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,MultipartFile file,String cid) throws IllegalAccessException, InvocationTargetException {
 		//保存的路径
-		String path = request.getServletContext().getRealPath("/img");
+		String path = request.getSession().getServletContext().getRealPath("/img");
 		//得到文件名称
 		String fileName = file.getOriginalFilename();
 		String newFileName = CommonUtils.uuid()+fileName;

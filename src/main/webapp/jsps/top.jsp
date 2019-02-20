@@ -38,7 +38,6 @@
 		欢迎：${sessionScope.session_user.username}&nbsp;&nbsp;|&nbsp;&nbsp;
 		  <a href="<c:url value='/jsps/cart/cartList.jsp'/>" target="body">我的购物车</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 		  <a href="<c:url value='/OrderController/myOrders'/>" target="body">我的订单</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-		  <a href="<c:url value='/jsps/user/pwd.jsp'/>" target="body">修改密码</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 		  <a href="<c:url value='/UserController/quit'/>" target="_parent">退出</a>    
 		</c:otherwise>
 	</c:choose>

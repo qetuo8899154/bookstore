@@ -16,8 +16,8 @@
 <body>
 	<h1>${msg}</h1>
 	<ul>
-		<li><a href="javascript:history.back(-1)">返回</a></li>
-		<li><a href="<c:url value='/jsps/body.jsp'/>" >首页</a></li>
+		<li><a href="<c:url value='/OrderController/myOrders'/>">返回</a></li>
+		<li><a href="<c:url value='/jsps/body.jsp'/>">首页</a></li>
 	</ul>
 </body>
 </html>

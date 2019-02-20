@@ -53,11 +53,13 @@
 		<li>单价：${book.price }元</li>
 	</ul>
 
+	<c:if test="${!empty sessionScope.session_user}">
 	<form id="form" action="<c:url value='/CartController/add?'/>" method="post" class="form">
 		<input type="text" name="num" value="1" style="width:60px"/>
 		<input type="hidden" name="bid" value="${book.bid }"/>
 		<input type="submit" value="加入购物车" class="sub"/>
 	</form>
+	</c:if>
  </div>
 </body>
 </html>
